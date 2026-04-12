@@ -18,20 +18,20 @@ class _ContactPageState extends State<ContactPage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 120),
-              child: Center(child: Text('CONTACT US',style: TextStyle(fontSize: 40),)),
+              child: Center(child: Text('CONTACT US',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
             ),
             SizedBox(height: 60,),
-            Icon(Icons.call,size: 40,),
-            Text('CALL US',style: TextStyle(fontSize: 20),),
+            Icon(Icons.call,size: 20,),
+            Text('CALL US',style: TextStyle(fontSize: 16),),
             InkWell(
               onTap: ()=>openLink(type: 'phone', Value: '9150366145'),
-                child: Text('+91 9150366145',style: TextStyle(fontSize: 16),)),
+                child: Text('+91 9150366145',style: TextStyle(fontSize: 14),)),
             SizedBox(height: 40,),
-            Icon(Icons.mail_outline_outlined,size: 40,),
-            Text('MAIL US',style: TextStyle(fontSize: 20),),
+            Icon(Icons.mail_outline_outlined,size: 20,),
+            Text('MAIL US',style: TextStyle(fontSize: 16),),
             InkWell(
                 onTap: ()=>openLink(type: 'email', Value: 'marunkumar886@gmail.com'),
-                child: Text('marunkumar886@gmail.com',style: TextStyle(fontSize: 16),)),
+                child: Text('marunkumar886@gmail.com',style: TextStyle(fontSize: 14),)),
           ],
         ),
       ),

@@ -19,35 +19,46 @@ class _AboutPageState extends State<AboutPage> {
         child: Center(
           child: _isMObile?Column(
             children: [
-              Text('ABOUT'),
-              Text('''I am a Junior App Developer with a Strong foundation in Flutter and Dart. Having compleate a 6 - month internship
-              at Sumisa Technologys, I've gained hands - on experience in building scalable features like marketing module, and real - time 
-              state management using Riverpod.
+              Padding(
+                padding: const EdgeInsets.only(top: 40,bottom: 5),
+                child: Text('ABOUT',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20,right: 20),
+                child: Text('''I am a Junior App Developer with a strong foundation in Flutter and Dart, focused on building efficient and scalable cross-platform applications. I completed a 6-month internship at Sumisa Technologies, where I gained practical experience in developing and implementing scalable features, including a marketing module.
+
+During my internship, I worked on real-time state management using Riverpod, improving application performance and ensuring smooth user interactions. I am passionate about writing clean, maintainable code and continuously improving my skills in modern app development practices.
               ''',textAlign: TextAlign.start,),
-              Text('EXPERIENCE'),
+              ),
+              Text('EXPERIENCE',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
               ListTile(
                 title: Center(child: Text('Sumisa Technology Pvt Ltd, Perambalur. - (Intern)')),
-                subtitle:Center(child: Text('         I am experice in 6 month of flutter developer in real time project handled in Sumisa Technologyes Pvt Ltd, Perambalur')),
+                subtitle:Center(child: Text('I have 6 months of professional experience as a Flutter Developer, working on real-time projects at Sumisa Technologies Pvt Ltd, Perambalur. During this period, I gained hands-on experience in developing scalable application features, collaborating in a team environment, and applying best practices in modern app development.')),
               ),
             ],
           ):Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 40),
-                child: Text('ABOUT'),
+                child: Text('ABOUT',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text('''I am a Junior App Developer with a Strong foundation in Flutter and Dart.\n Having compleate a 6 - month internship at Sumisa Technologys, I've gained hands -\n on experience in building scalable features like marketing module, and real - time state management using Riverpod.
+                padding: const EdgeInsets.only(top: 10,left:20,right: 20),
+                child: Text('''I am a Junior App Developer with a strong foundation in Flutter and Dart, focused on building efficient and scalable cross-platform applications. I completed a 6-month internship at Sumisa Technologies, where I gained practical experience in developing and implementing scalable features, including a marketing module.
+
+During my internship, I worked on real-time state management using Riverpod, improving application performance and ensuring smooth user interactions. I am passionate about writing clean, maintainable code and continuously improving my skills in modern app development practices.
               ''',textAlign: TextAlign.center,),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 40),
-                child: Text('EXPERIENCE'),
+                child: Text('EXPERIENCE',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
               ),
               ListTile(
                 title: Center(child: Text('Sumisa Technology Pvt Ltd, Perambalur. - (Intern)')),
-                subtitle:Center(child: Text('         I am experice in 6 month of flutter developer in real time project handled in Sumisa Technologyes Pvt Ltd, Perambalur')),
+                subtitle:Center(child: Padding(
+                  padding: const EdgeInsets.only(left: 20,right: 20),
+                  child: Text('I have 6 months of professional experience as a Flutter Developer, working on real-time projects at Sumisa Technologies Pvt Ltd, Perambalur. During this period, I gained hands-on experience in developing scalable application features, collaborating in a team environment, and applying best practices in modern app development.'),
+                )),
               ),
             ],
           ),
