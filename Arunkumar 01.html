@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arunkumar — Flutter Mobile Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy-deep: #0a1f2e;
+        --navy: #0e2a3d;
+        --navy-panel: #123249;
+        --paper: #ede6d6;
+        --paper-dim: #c9c2b0;
+        --orange: #ff6b35;
+        --orange-dim: #c94f22;
+        --cyan: #5fb0c2;
+        --cyan-dim: #3a7482;
+        --slate: #8fa3ad;
+        --line: rgba(95, 176, 194, 0.22);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--navy);
+        color: var(--paper);
+        font-family: "Inter", sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      ::selection {
+        background: var(--orange);
+        color: var(--navy-deep);
+      }
+
+      .grid-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 48px 48px;
+        opacity: 0.5;
+      }
+      .grid-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at 50% 0%,
+          rgba(10, 31, 46, 0) 0%,
+          var(--navy) 78%
+        );
+      }
+
+      h1,
+      h2,
+      h3,
+      .display {
+        font-family: "Big Shoulders Display", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.01em;
+        font-weight: 800;
+        color: var(--paper);
+        line-height: 0.92;
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .wrap {
+        position: relative;
+        z-index: 1;
+      }
+      .container {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+
+      .sheet {
+        position: relative;
+        border-top: 1px solid var(--line);
+        padding: 110px 0 110px;
+      }
+      .sheet::before,
+      .sheet::after {
+        content: "+";
+        position: absolute;
+        top: -9px;
+        color: var(--cyan-dim);
+        font-size: 16px;
+      }
+      .sheet::before {
+        left: 16px;
+      }
+      .sheet::after {
+        right: 16px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--orange);
+        margin-bottom: 20px;
+      }
+      .tag::before {
+        content: "";
+        width: 22px;
+        height: 1px;
+        background: var(--orange);
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        background: rgba(10, 31, 46, 0.86);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav-inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 32px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        font-family: "Big Shoulders Display", sans-serif;
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: 0.03em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand .dot {
+        width: 9px;
+        height: 9px;
+        background: var(--orange);
+        border-radius: 1px;
+        transform: rotate(45deg);
+      }
+      .nav-links {
+        display: flex;
+        gap: 36px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .nav-links a {
+        color: var(--slate);
+        position: relative;
+        padding: 4px 0;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--paper);
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 1px;
+        width: 0;
+        background: var(--orange);
+        transition: width 0.25s;
+      }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+      .nav-cta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        border: 1px solid var(--orange);
+        color: var(--orange);
+        padding: 9px 16px;
+        text-transform: uppercase;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .nav-cta:hover {
+        background: var(--orange);
+        color: var(--navy-deep);
+      }
+      .nav-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+      }
+      .nav-toggle span {
+        width: 22px;
+        height: 2px;
+        background: var(--paper);
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: 110px;
+        padding-bottom: 60px;
+        position: relative;
+      }
+      .titleblock {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--cyan);
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 14px;
+        margin-bottom: 60px;
+      }
+      .titleblock span {
+        color: var(--slate);
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.9fr;
+        gap: 64px;
+        align-items: center;
+      }
+      .hero h1 {
+        font-size: clamp(52px, 7vw, 96px);
+        margin-bottom: 22px;
+      }
+      .hero h1 em {
+        font-style: normal;
+        color: var(--orange);
+      }
+      .hero p.lead {
+        max-width: 520px;
+        color: var(--paper-dim);
+        font-size: 17px;
+        margin-bottom: 36px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 14px 24px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+      }
+      .btn-primary {
+        background: var(--orange);
+        color: var(--navy-deep);
+      }
+      .btn-primary:hover {
+        background: #ff824f;
+      }
+      .btn-ghost {
+        border-color: var(--line);
+        color: var(--paper);
+      }
+      .btn-ghost:hover {
+        border-color: var(--cyan);
+        color: var(--cyan);
+      }
+
+      .schematic {
+        position: relative;
+        border: 1px solid var(--line);
+        aspect-ratio: 3/4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 23px,
+          var(--line) 23px,
+          var(--line) 24px
+        );
+      }
+      .schematic .corner {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border: 1px solid var(--cyan);
+      }
+      .schematic .corner.tl {
+        top: -1px;
+        left: -1px;
+        border-right: none;
+        border-bottom: none;
+      }
+      .schematic .corner.tr {
+        top: -1px;
+        right: -1px;
+        border-left: none;
+        border-bottom: none;
+      }
+      .schematic .corner.bl {
+        bottom: -1px;
+        left: -1px;
+        border-right: none;
+        border-top: none;
+      }
+      .schematic .corner.br {
+        bottom: -1px;
+        right: -1px;
+        border-left: none;
+        border-top: none;
+      }
+      .schematic svg {
+        width: 62%;
+      }
+      .schematic .caption {
+        position: absolute;
+        bottom: 14px;
+        left: 14px;
+        right: 14px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        color: var(--slate);
+        display: flex;
+        justify-content: space-between;
+        text-transform: uppercase;
+      }
+
+      .stroke {
+        fill: none;
+        stroke: var(--cyan);
+        stroke-width: 1.4;
+      }
+      .stroke-orange {
+        fill: none;
+        stroke: var(--orange);
+        stroke-width: 1.6;
+      }
+      .draw {
+        stroke-dasharray: 900;
+        stroke-dashoffset: 900;
+        animation: draw 2.6s ease forwards 0.3s;
+      }
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      .head-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 56px;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .head-row h2 {
+        font-size: clamp(34px, 4.2vw, 52px);
+      }
+      .sheet-no {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--slate);
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+      }
+      .about-grid p {
+        color: var(--paper-dim);
+        font-size: 16px;
+        margin-bottom: 18px;
+      }
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--line);
+        margin-top: 20px;
+      }
+      .stat {
+        background: var(--navy);
+        padding: 22px 18px;
+      }
+      .stat .num {
+        font-family: "Big Shoulders Display";
+        font-size: 38px;
+        font-weight: 800;
+        color: var(--orange);
+      }
+      .stat .lbl {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        letter-spacing: 0.08em;
+        color: var(--slate);
+        text-transform: uppercase;
+        margin-top: 4px;
+      }
+
+      .legend {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+      .legend-card {
+        background: var(--navy);
+        padding: 28px 26px;
+      }
+      .legend-card .lc-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .legend-card .swatch {
+        width: 12px;
+        height: 12px;
+        border: 1px solid var(--cyan);
+      }
+      .legend-card h3 {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--cyan);
+        font-weight: 500;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chip {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        border: 1px solid var(--line);
+        padding: 6px 10px;
+        color: var(--paper-dim);
+      }
+
+      .timeline {
+        border-left: 1px solid var(--line);
+        padding-left: 40px;
+        position: relative;
+      }
+      .tl-item {
+        position: relative;
+        padding-bottom: 52px;
+      }
+      .tl-item:last-child {
+        padding-bottom: 0;
+      }
+      .tl-item::before {
+        content: "";
+        position: absolute;
+        left: -45px;
+        top: 4px;
+        width: 9px;
+        height: 9px;
+        background: var(--navy);
+        border: 2px solid var(--orange);
+        transform: rotate(45deg);
+      }
+      .tl-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .tl-head h3 {
+        font-size: 26px;
+        color: var(--paper);
+        text-transform: none;
+        font-weight: 700;
+      }
+      .tl-date {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--orange);
+        letter-spacing: 0.06em;
+      }
+      .tl-role {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 14px;
+      }
+      .tl-item ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 640px;
+      }
+      .tl-item li {
+        color: var(--paper-dim);
+        font-size: 15px;
+        position: relative;
+        padding-left: 18px;
+      }
+      .tl-item li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--slate);
+      }
+
+      .cases {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+      .case {
+        background: var(--navy);
+        padding: 38px 34px;
+        display: flex;
+        flex-direction: column;
+      }
+      .case-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 24px;
+      }
+      .case-id {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--slate);
+      }
+      .case-status {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        color: var(--orange);
+        border: 1px solid var(--orange);
+        padding: 3px 8px;
+        letter-spacing: 0.08em;
+      }
+      .case h3 {
+        font-size: 32px;
+        margin-bottom: 6px;
+      }
+      .case .case-sub {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 18px;
+      }
+      .case p.desc {
+        color: var(--paper-dim);
+        font-size: 14px;
+        margin-bottom: 18px;
+      }
+      .case ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: auto;
+      }
+      .case li {
+        color: var(--paper-dim);
+        font-size: 13.5px;
+        padding-left: 16px;
+        position: relative;
+      }
+      .case li::before {
+        content: "›";
+        position: absolute;
+        left: 0;
+        color: var(--orange);
+      }
+
+      .edu-card {
+        border: 1px solid var(--line);
+        padding: 40px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+      .edu-card h3 {
+        font-size: 28px;
+        text-transform: none;
+        margin-bottom: 6px;
+      }
+      .edu-sub {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .edu-date {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--orange);
+        margin-bottom: 20px;
+        display: block;
+      }
+      .edu-card .capstone-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--slate);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 10px;
+      }
+      .edu-card p {
+        color: var(--paper-dim);
+        font-size: 14.5px;
+      }
+
+      .certs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+      .cert {
+        background: var(--navy);
+        padding: 30px 32px;
+      }
+      .cert h3 {
+        font-size: 22px;
+        text-transform: none;
+        margin-bottom: 4px;
+      }
+      .cert .cert-date {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--orange);
+        margin-bottom: 16px;
+        display: block;
+      }
+      .cert .chips {
+        margin-top: 6px;
+      }
+      .cert .chip {
+        font-size: 11px;
+        padding: 5px 9px;
+      }
+
+      .contact {
+        text-align: center;
+        padding-bottom: 60px;
+      }
+      .contact h2 {
+        font-size: clamp(40px, 7vw, 88px);
+        margin-bottom: 24px;
+      }
+      .contact-sub {
+        color: var(--paper-dim);
+        max-width: 520px;
+        margin: 0 auto 44px;
+      }
+      .contact-grid {
+        display: flex;
+        justify-content: center;
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+        max-width: 820px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+      }
+      .contact-item {
+        flex: 1;
+        min-width: 220px;
+        background: var(--navy);
+        padding: 28px 20px;
+      }
+      .contact-item .clbl {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        color: var(--slate);
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .contact-item .cval {
+        font-size: 16px;
+        color: var(--paper);
+        word-break: break-word;
+      }
+      .contact-item a.cval:hover {
+        color: var(--orange);
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 28px 0;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--slate);
+        display: flex;
+        justify-content: space-between;
+        letter-spacing: 0.05em;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        .legend {
+          grid-template-columns: 1fr;
+        }
+        .cases {
+          grid-template-columns: 1fr;
+        }
+        .certs {
+          grid-template-columns: 1fr;
+        }
+        .edu-card {
+          grid-template-columns: 1fr;
+        }
+        .nav-links,
+        .nav-cta {
+          display: none;
+        }
+        .nav-toggle {
+          display: flex;
+        }
+        .nav-links.open {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 72px;
+          left: 0;
+          right: 0;
+          background: var(--navy-deep);
+          padding: 24px 32px;
+          gap: 20px;
+          border-bottom: 1px solid var(--line);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-bg"></div>
+
+    <nav>
+      <div class="nav-inner">
+        <div class="brand"><span class="dot"></span>ARUNKUMAR</div>
+        <div class="nav-links" id="navLinks">
+          <a href="#profile">Profile</a>
+          <a href="#skills">Skills</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#education">Education</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <a href="#contact" class="nav-cta">Get in touch</a>
+        <div class="nav-toggle" id="navToggle">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <section class="hero container" id="profile">
+        <div style="width: 100%">
+          <div class="titleblock">
+            <div>
+              DWG NO. ARN—001 <span>/ FLUTTER DEVELOPER PORTFOLIO</span>
+            </div>
+            <div>SCALE 1:1 <span>/ REV A</span></div>
+          </div>
+          <div class="hero-grid">
+            <div>
+              <div class="tag">Sheet 01 — Title Block</div>
+              <h1>
+                Building<br /><em>Flutter</em> apps,<br />screen by screen.
+              </h1>
+              <p class="lead">
+                Arunkumar is an enthusiastic junior flutter developer based in
+                Perambalur (Open to Remote / Relocate), focused on
+                cross-platform Android/iOS features, API integration, and
+                shipping clean, tested UI. Currently seeking full-time
+                opportunities as a Flutter Developer and available for selective
+                freelance projects.
+              </p>
+              <div class="hero-actions">
+                <a
+                  href="mailto:mmarunkumar886@gmail.com"
+                  class="btn btn-primary"
+                  >Get In Touch</a
+                >
+                <a href="#projects" class="btn btn-ghost">View projects</a>
+              </div>
+            </div>
+            <div class="schematic reveal">
+              <div class="corner tl"></div>
+              <div class="corner tr"></div>
+              <div class="corner bl"></div>
+              <div class="corner br"></div>
+              <svg viewBox="0 0 220 320" xmlns="http://www.w3.org/2000/svg">
+                <rect
+                  class="stroke draw"
+                  x="10"
+                  y="10"
+                  width="200"
+                  height="300"
+                  rx="18"
+                />
+                <rect
+                  class="stroke draw"
+                  x="26"
+                  y="34"
+                  width="168"
+                  height="220"
+                />
+                <circle class="stroke draw" cx="110" cy="286" r="12" />
+                <line class="stroke draw" x1="90" y1="20" x2="130" y2="20" />
+                <line
+                  class="stroke-orange draw"
+                  x1="26"
+                  y1="70"
+                  x2="194"
+                  y2="70"
+                />
+                <line class="stroke draw" x1="40" y1="96" x2="150" y2="96" />
+                <line class="stroke draw" x1="40" y1="114" x2="180" y2="114" />
+                <line class="stroke draw" x1="40" y1="132" x2="120" y2="132" />
+                <rect
+                  class="stroke-orange draw"
+                  x="40"
+                  y="156"
+                  width="154"
+                  height="60"
+                />
+              </svg>
+              <div class="caption">
+                <span>Widget_Tree.dart</span><span>60 FPS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet container">
+        <div class="head-row reveal">
+          <div>
+            <div class="tag">Sheet 02 — Profile</div>
+            <h2>About</h2>
+          </div>
+          <div class="sheet-no">ARN—002 / PROFILE</div>
+        </div>
+        <div class="about-grid reveal">
+          <div>
+            <p>
+              Arunkumar recently completed a six-month internship at Sumisa
+              Technology, Perambalur, where he worked as a Mobile Application
+              Developer building and maintaining Android features end-to-end —
+              from UI updates and bug fixes to API integration and data
+              workflows.
+            </p>
+            <p>
+              He holds a B.E. in Computer Science &amp; Engineering from
+              Dhanalakshmi Srinivasan Engineering College, and works primarily
+              in Dart and Flutter, with Provider and Riverpod for state
+              management and Firebase/REST APIs on the backend.
+            </p>
+          </div>
+          <div>
+            <div class="stat-row">
+              <div class="stat">
+                <div class="num">6</div>
+                <div class="lbl">Months — Sumisa Internship</div>
+              </div>
+              <div class="stat">
+                <div class="num">2</div>
+                <div class="lbl">Client platforms shipped</div>
+              </div>
+              <div class="stat">
+                <div class="num">3</div>
+                <div class="lbl">Core languages</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet container" id="skills">
+        <div class="head-row reveal">
+          <div>
+            <div class="tag">Sheet 03 — Component Legend</div>
+            <h2>Skills</h2>
+          </div>
+          <div class="sheet-no">ARN—003 / LEGEND</div>
+        </div>
+        <div class="legend reveal">
+          <div class="legend-card">
+            <div class="lc-head">
+              <div class="swatch"></div>
+              <h3>Languages</h3>
+            </div>
+            <div class="chips">
+              <span class="chip">Dart</span><span class="chip">Java</span
+              ><span class="chip">Python</span>
+            </div>
+          </div>
+          <div class="legend-card">
+            <div class="lc-head">
+              <div class="swatch"></div>
+              <h3>Framework</h3>
+            </div>
+            <div class="chips"><span class="chip">Flutter</span></div>
+          </div>
+          <div class="legend-card">
+            <div class="lc-head">
+              <div class="swatch"></div>
+              <h3>State Management</h3>
+            </div>
+            <div class="chips">
+              <span class="chip">Provider</span
+              ><span class="chip">Riverpod</span>
+            </div>
+          </div>
+          <div class="legend-card">
+            <div class="lc-head">
+              <div class="swatch"></div>
+              <h3>Backend</h3>
+            </div>
+            <div class="chips">
+              <span class="chip">REST APIs</span
+              ><span class="chip">Firebase</span>
+            </div>
+          </div>
+          <div class="legend-card">
+            <div class="lc-head">
+              <div class="swatch"></div>
+              <h3>Dev Tools</h3>
+            </div>
+            <div class="chips">
+              <span class="chip">Android Studio</span
+              ><span class="chip">VS Code</span>
+            </div>
+          </div>
+          <div class="legend-card">
+            <div class="lc-head">
+              <div class="swatch"></div>
+              <h3>Version Control</h3>
+            </div>
+            <div class="chips">
+              <span class="chip">Git</span><span class="chip">GitHub</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet container" id="experience">
+        <div class="head-row reveal">
+          <div>
+            <div class="tag">Sheet 04 — Work Schedule</div>
+            <h2>Experience</h2>
+          </div>
+          <div class="sheet-no">ARN—004 / SCHEDULE</div>
+        </div>
+        <div class="timeline reveal">
+          <div class="tl-item">
+            <div class="tl-head">
+              <h3>Sumisa Technology, Perambalur</h3>
+              <span class="tl-date">AUG 2025 — FEB 2026</span>
+            </div>
+            <div class="tl-role">Mobile Application Developer — Intern</div>
+            <ul>
+              <li>
+                Contributed to development and enhancement of mobile application
+                features for Android platforms.
+              </li>
+              <li>
+                Supported UI updates, bug fixes, and performance improvements
+                across key modules.
+              </li>
+              <li>
+                Assisted in integrating API endpoints and handling data
+                workflows within the app.
+              </li>
+              <li>
+                Collaborated with the team to improve user experience,
+                navigation flow, and in-app functionality.
+              </li>
+              <li>
+                Participated in testing, debugging, and documenting code changes
+                to maintain project quality.
+              </li>
+              <li>
+                Optimized keyword tagging and listing logic for better search
+                visibility across app modules.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet container" id="projects">
+        <div class="head-row reveal">
+          <div>
+            <div class="tag">Sheet 05 — Case Files</div>
+            <h2>Projects</h2>
+          </div>
+          <div class="sheet-no">ARN—005 / CASE FILES</div>
+        </div>
+        <div class="cases reveal">
+          <div class="case">
+            <div class="case-top">
+              <span class="case-id">CASE FILE — 24MTC</span>
+              <span class="case-status">Shipped</span>
+            </div>
+            <h3>24MTC</h3>
+            <div class="case-sub">
+              Temple Management &amp; Visit Listing Platform
+            </div>
+            <p class="desc">Software Developer, Sumisa Technologies</p>
+            <ul>
+              <li>
+                Supported end-to-end development and maintenance of the temple
+                management and visit-listing platform.
+              </li>
+              <li>
+                Enhanced design module components to streamline listing
+                management workflows and improve user experience.
+              </li>
+              <li>
+                Optimized keyword-driven search logic, improving listing
+                discoverability and search precision.
+              </li>
+              <li>
+                Partnered with QA and development teams to test, debug, and
+                fine-tune features, boosting overall system performance.
+              </li>
+            </ul>
+          </div>
+          <div class="case">
+            <div class="case-top">
+              <span class="case-id">CASE FILE — MYP</span>
+              <span class="case-status">Shipped</span>
+            </div>
+            <h3>MYP</h3>
+            <div class="case-sub">
+              MyPerambalur — Real Estate Listing Platform
+            </div>
+            <p class="desc">Software Developer, Sumisa Technologies</p>
+            <ul>
+              <li>
+                Supported the development and maintenance of the MYP real-estate
+                listing platform.
+              </li>
+              <li>
+                Assisted in modifying and improving marketing module functions
+                to optimize property listings.
+              </li>
+              <li>
+                Worked on updating keyword-based listing logic to improve
+                visibility, search accuracy, and user engagement.
+              </li>
+              <li>
+                Collaborated with the team to test, debug, and refine system
+                features for better performance.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet container" id="education">
+        <div class="head-row reveal">
+          <div>
+            <div class="tag">Sheet 06 — Foundation</div>
+            <h2>Education</h2>
+          </div>
+          <div class="sheet-no">ARN—006 / FOUNDATION</div>
+        </div>
+        <div class="edu-card reveal">
+          <div>
+            <div class="edu-sub">B.E., Computer Science &amp; Engineering</div>
+            <h3>Dhanalakshmi Srinivasan Engineering College (Autonomous)</h3>
+            <span class="edu-date">AUG 2022 — MAY 2025</span>
+          </div>
+          <div>
+            <div class="capstone-label">Capstone Project</div>
+            <p>
+              Developed an Employee Payslip Management System using Python,
+              featuring CRUD operations, salary calculations, and PDF payslip
+              generation — with a clear workflow for employee data management
+              and a user-friendly interface for smoother payroll processing.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet container">
+        <div class="head-row reveal">
+          <div>
+            <div class="tag">Sheet 07 — Certifications</div>
+            <h2>Certificates</h2>
+          </div>
+          <div class="sheet-no">ARN—007 / CERTS</div>
+        </div>
+        <div class="certs reveal">
+          <div class="cert">
+            <h3>Sumisa Technologies</h3>
+            <span class="cert-date"
+              >6-MONTH INTERNSHIP CERTIFICATE — AUG 2025 TO FEB 2026</span
+            >
+            <div class="chips">
+              <span class="chip">Flutter</span><span class="chip">Dart</span
+              ><span class="chip">Mobile App Dev</span>
+              <span class="chip">UI Development</span
+              ><span class="chip">API Integration</span
+              ><span class="chip">State Management</span>
+              <span class="chip">Debugging</span
+              ><span class="chip">Performance Optimization</span
+              ><span class="chip">Cross-Platform Dev</span
+              ><span class="chip">App Testing</span>
+            </div>
+          </div>
+          <div class="cert">
+            <h3>NextGen Solution</h3>
+            <span class="cert-date">1-MONTH CERTIFIED INTERNSHIP</span>
+            <div class="chips">
+              <span class="chip">Spring Boot</span
+              ><span class="chip">AngularJS</span
+              ><span class="chip">Postman</span
+              ><span class="chip">API Testing</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet contact container" id="contact">
+        <div class="reveal">
+          <div class="tag" style="justify-content: center">
+            Sheet 08 — Sign-off
+          </div>
+          <h2>Let's build<br />something.</h2>
+          <p class="contact-sub">
+            Open to full-time Flutter &amp; mobile application development
+            roles, and available for freelance projects. Reach out directly
+            below.
+          </p>
+          <div class="contact-grid">
+            <div class="contact-item">
+              <div class="clbl">Email</div>
+              <a class="cval" href="mailto:marunkumar886@gmail.com"
+                >marunkumar886@gmail.com</a
+              >
+            </div>
+            <div class="contact-item">
+              <div class="clbl">Phone</div>
+              <a class="cval" href="tel:+919150366145">+91 91503 66145</a>
+            </div>
+            <div class="contact-item">
+              <div class="clbl">Location</div>
+              <div class="cval">Perambalur, India</div>
+            </div>
+            <div class="contact-item">
+              <div class="clbl">LinkedIn</div>
+              <div class="cval">
+                <a
+                  class="cval"
+                  href="https://www.linkedin.com/in/arunkumar-flutter-developer/"
+                >
+                  Arunkumar Flutter Developer
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="container">
+        <span>© 2026 ARUNKUMAR</span>
+        <span>ARN—PORTFOLIO / DRAWN FOR MOBILE</span>
+      </footer>
+    </div>
+
+    <script>
+      const navToggle = document.getElementById("navToggle");
+      const navLinks = document.getElementById("navLinks");
+      navToggle.addEventListener("click", () =>
+        navLinks.classList.toggle("open"),
+      );
+      navLinks
+        .querySelectorAll("a")
+        .forEach((a) =>
+          a.addEventListener("click", () => navLinks.classList.remove("open")),
+        );
+
+      const revealEls = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+      revealEls.forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>
